@@ -1,0 +1,109 @@
+/**
+ * 
+ */
+/**
+ * @author Kabbou Moahmed 
+ *
+ */
+
+// no cells can die 
+//u must return the numbers of cells infected
+package virus;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class Virus 
+		{
+			int n;
+			List<int[]> infected ;  // patients0 
+			public Virus()
+		{
+			this.n=n;
+			this.infected=infected;      
+		}
+		public static Integer[][] init (List<int[]> patients0, int n) // add element from the infected people list
+		{
+			Integer[][] listBase = Collections.nCopies(n, 0).toArray(new Integer[0][0]);     // grid full of 0
+			for(int[] e : patients0)
+		{	
+			listBase[e[0]][e[1]]=1;	  // implement the infected people
+		}
+		return listBase ;
+	}
+		
+	public static void nextGen (Integer[][] listBase , int n  ) 
+	{
+			 for(int j =0; j<n ; j++ ) {
+			 for(int i = 0; i < n; i++) 
+			    {
+			        if(listBase[i][j] == 1) 
+			        {
+			        	listBase[i+1][j]=1;             // close cells got infected
+			        	listBase[i][j+1]=1;
+			        	listBase[i-1][j]=1;
+			        	listBase[i][j-1]=1;
+			        	
+			        }
+			    }
+	      }
+		
+	}
+	/* static void print(List<Integer> listOftheWorld)    // function to see the base 
+	{
+	  int n = listOftheWorld.size(); // length of the full table
+	 
+	  for (int i = 0; i < n; i++)
+	  {
+	    for (int j = 0; j < n; j++)
+	    {                             // creation of the table full of 0 
+	      System.out.print(0);
+	    }
+	    System.out.println();
+	  }
+	} */
+	
+	static int countInfected(Integer [][] world,int n) // function to calculate number of infected people infected
+	{   
+		int x=0; 
+		for(int j =0; j<n ; j++ ) {
+			 for(int i = 0; i < n; i++) 
+			    {
+			        if(world[i][j] == 1)
+			        {
+			        	x++;
+			        }
+			    }
+		}	
+			        
+	return x;
+	}
+	public static List<Integer> virus(List<int[]> patients0, int n)
+	{
+		List<Integer> nbInfected = null;
+		Integer[][] listBase = init (patients0,n);
+		nbInfected.add(patients0.size());
+		Integer[][] listfull = Collections.nCopies(n, 1).toArray(new Integer[1][1]);  // this list is made to verify if the list != 1  	
+		while(! listBase.equals(listfull) ) // if the list not full of 1 , find the next generation 
+			{
+				nextGen (listBase,n);
+				nbInfected.add(countInfected(listBase,n));
+			}
+		
+		System.out.println(nbInfected);
+		return nbInfected;
+	}
+		
+	public static void main (String[] args) 
+	  {
+		System.out.print("Please enter number of lines: ");
+	    Scanner in = new Scanner(System.in);
+	    int n = in.nextInt();   // n : number of lines 
+	    //    List<int[]> patients0 =         // job not finished here 
+	    //    virus(patients0,n);
+	  }
+}
